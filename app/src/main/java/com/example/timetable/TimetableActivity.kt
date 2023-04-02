@@ -5,7 +5,10 @@
 package com.example.timetable
 
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
+import android.text.format.DateUtils.getDayOfWeekString
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +23,18 @@ class TimetableActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timetable)
 
-        val entries = readJsonFile()
+        // Set up the day of the week at the top
+        val dayOfWeekTextView = findViewById<TextView>(R.id.dayOfWeekTextView)
+
+        // Get the current day of the week
+        val dayOfWeek = getDayOfWeek()
+
+        dayOfWeekTextView.text = dayOfWeek
+
+//        dayOfWeekTextView.setText = dayOfWeek
+
+
+        val entries = readJsonFile(dayOfWeek)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.adapter = TimetableAdapter(entries)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -34,23 +48,70 @@ class TimetableActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+    private fun getDayOfWeek(): String {
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
 
-    private fun readJsonFile(): List<TimetableEntry> {
-        val inputStream = resources.openRawResource(R.raw.entries)
-        val json = inputStream.bufferedReader().use { it.readText() }
+        return when (dayOfWeek) {
+            Calendar.MONDAY -> "Monday"
+            Calendar.TUESDAY -> "Tuesday"
+            Calendar.WEDNESDAY -> "Wednesday"
+            Calendar.THURSDAY -> "Thursday"
+            Calendar.FRIDAY -> "Friday"
+            Calendar.SATURDAY -> "Saturday"
+            Calendar.SUNDAY -> "Sunday"
+            else -> "Monday"
+        }
+    }
+
+
+    private fun readJsonFile(day: String): List<TimetableEntry> {
+        val json = application.assets.open("entries.json").bufferedReader().use { it.readText() }
         val jsonArray = JSONArray(json)
         val list = mutableListOf<TimetableEntry>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
-            val subject = jsonObject.getString("subject")
-            val startTime = jsonObject.getString("startTime")
-            val endTime = jsonObject.getString("endTime")
-            val item = TimetableEntry(subject, startTime, endTime)
-            list.add(item)
+            if (jsonObject.getString("day") == day) {
+                val subject = jsonObject.getString("subject")
+                val startTime = jsonObject.getString("startTime")
+                val endTime = jsonObject.getString("endTime")
+                val item = TimetableEntry(subject, startTime, endTime)
+                list.add(item)
+            }
         }
         return list
     }
 }
+//
+//    private fun readJsonFile(): List<TimetableEntry> {
+////        val inputStream = resources.openRawResource(R.raw.entries)
+////        val json = inputStream.bufferedReader().use { it.readText() }
+////        val jsonArray = JSONArray(json)
+////        val list = mutableListOf<TimetableEntry>()
+////        for (i in 0 until jsonArray.length()) {
+////            val jsonObject = jsonArray.getJSONObject(i)
+////            val subject = jsonObject.getString("subject")
+////            val startTime = jsonObject.getString("startTime")
+////            val endTime = jsonObject.getString("endTime")
+////            val item = TimetableEntry(subject, startTime, endTime)
+////            list.add(item)
+////        }
+////        return list
+//
+//        val json = application.assets.open("entries.json").bufferedReader().use { it.readText() }
+//        val jsonArray = JSONArray(json)
+//        val list = mutableListOf<TimetableEntry>()
+//        for (i in 0 until jsonArray.length()) {
+//            val jsonObject = jsonArray.getJSONObject(i)
+//            val subject = jsonObject.getString("subject")
+//            val startTime = jsonObject.getString("startTime")
+//            val endTime = jsonObject.getString("endTime")
+//            val item = TimetableEntry(subject, startTime, endTime)
+//            list.add(item)
+//        }
+//        return list
+//    }
+//}
 
 //import android.content.Intent
 //import android.os.Bundle

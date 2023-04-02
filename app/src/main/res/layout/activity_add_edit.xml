@@ -16,8 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/subject_title"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/subjectEditText"
@@ -36,14 +37,16 @@
         android:layout_below="@id/subjectEditText"
         android:layout_marginTop="16dp"
         android:text="Day of the Week"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/weekSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/Day"
+        android:textColor="@android:color/darker_gray"
         android:layout_marginTop="16dp" />
 
     <TextView
@@ -53,8 +56,9 @@
         android:layout_below="@id/weekSpinner"
         android:layout_marginTop="16dp"
         android:text="@string/start_time_label"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 <!--    <TimePicker-->
 <!--        android:id="@+id/timePicker"-->
@@ -77,7 +81,7 @@
             android:layout_below="@id/startTimeTextView"
             android:ems="10"
             android:hint="@string/start_time_hint"
-
+            android:layout_marginTop="4dp"
             android:maxLines="1"
             />
         <Button
@@ -85,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="set"
+
             android:layout_below="@id/startTimeTextView"
             android:layout_toRightOf="@+id/startTimeEditText"
 
@@ -97,8 +102,9 @@
         android:layout_below="@id/startTimeEditText"
         android:layout_marginTop="16dp"
         android:text="@string/end_time_label"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 <!--    <EditText-->
@@ -115,7 +121,7 @@
             android:ems="10"
             android:hint="@string/end_time_hint"
             android:layout_below="@id/endTimeTextView"
-
+            android:layout_marginTop="4dp"
             android:maxLines="1"
             />
         <Button
