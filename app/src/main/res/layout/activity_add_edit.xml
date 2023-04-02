@@ -1,0 +1,142 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="false">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/subject_title"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/subjectEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject"
+        android:hint="@string/subject_hint"
+        android:inputType="textCapWords"
+        android:maxLength="50"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/Day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subjectEditText"
+        android:layout_marginTop="16dp"
+        android:text="Day of the Week"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/weekSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Day"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/startTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weekSpinner"
+        android:layout_marginTop="16dp"
+        android:text="@string/start_time_label"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+<!--    <TimePicker-->
+<!--        android:id="@+id/timePicker"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/startTimeEditText"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="@string/start_time_hint"-->
+<!--        android:inputType="time"-->
+<!--        android:maxLines="1" />-->
+        <EditText
+            android:id="@+id/startTimeEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/startTimeTextView"
+            android:ems="10"
+            android:hint="@string/start_time_hint"
+
+            android:maxLines="1"
+            />
+        <Button
+            android:id="@+id/setstart"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="set"
+            android:layout_below="@id/startTimeTextView"
+            android:layout_toRightOf="@+id/startTimeEditText"
+
+            />
+
+    <TextView
+        android:id="@+id/endTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startTimeEditText"
+        android:layout_marginTop="16dp"
+        android:text="@string/end_time_label"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+
+<!--    <EditText-->
+<!--        android:id="@+id/endTimeEditText"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="@string/end_time_hint"-->
+<!--        android:inputType="time"-->
+<!--        android:maxLines="1" />-->
+        <EditText
+            android:id="@+id/endTimeEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/end_time_hint"
+            android:layout_below="@id/endTimeTextView"
+
+            android:maxLines="1"
+            />
+        <Button
+            android:id="@+id/setend"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="set"
+            android:layout_below="@id/endTimeTextView"
+            android:layout_toRightOf="@+id/endTimeEditText"
+
+            />
+
+    <Button
+        android:id="@+id/action_save"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/endTimeEditText"
+        android:text="Save" />
+
+
+
+    </RelativeLayout>
+</ScrollView>

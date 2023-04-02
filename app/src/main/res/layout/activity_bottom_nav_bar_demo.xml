@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BottomNavBarDemo">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:textSize="50dp"
+        android:id="@+id/tv"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="339dp"
+        tools:ignore="MissingConstraints" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:elevation="6dp"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@color/purple_200"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/mynavmenuitems"
+        tools:ignore="MissingConstraints"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottomNav"/>
+</RelativeLayout>
