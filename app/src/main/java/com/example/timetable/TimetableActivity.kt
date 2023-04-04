@@ -8,30 +8,60 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.format.DateUtils.getDayOfWeekString
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
+import java.time.DayOfWeek
 
 class TimetableActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
 
+    var dayOfWeek : String = "Tuesday"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timetable)
 
         // Set up the day of the week at the top
-        val dayOfWeekTextView = findViewById<TextView>(R.id.dayOfWeekTextView)
+        val btn1=findViewById<Button>(R.id.btn1)
+        val btn2=findViewById<Button>(R.id.btn2)
+        val btn3=findViewById<Button>(R.id.btn3)
+        val btn4=findViewById<Button>(R.id.btn4)
+        val btn5=findViewById<Button>(R.id.btn5)
 
-        // Get the current day of the week
-        val dayOfWeek = getDayOfWeek()
+        btn1.setOnClickListener{
+            dayOfWeek=btn1.text.toString()
+            refresh()
+        }
+        btn2.setOnClickListener{
+            dayOfWeek=btn2.text.toString()
+            refresh()
+        }
+        btn3.setOnClickListener{
+            dayOfWeek=btn3.text.toString()
+            refresh()
+        }
+        btn4.setOnClickListener{
+            dayOfWeek=btn4.text.toString()
+            refresh()
+        }
+        btn5.setOnClickListener{
+            dayOfWeek=btn5.text.toString()
+            refresh()
+        }
 
-        dayOfWeekTextView.text = dayOfWeek
+//
+////        // Get the current day of the week
+////        val dayOfWeek = getDayOfWeek()
+//
+//        dayOfWeekTextView.text = dayOfWeek
 
 //        dayOfWeekTextView.setText = dayOfWeek
+
 
 
         val entries = readJsonFile(dayOfWeek)
@@ -48,21 +78,21 @@ class TimetableActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun getDayOfWeek(): String {
-        val calendar = Calendar.getInstance()
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-
-        return when (dayOfWeek) {
-            Calendar.MONDAY -> "Monday"
-            Calendar.TUESDAY -> "Tuesday"
-            Calendar.WEDNESDAY -> "Wednesday"
-            Calendar.THURSDAY -> "Thursday"
-            Calendar.FRIDAY -> "Friday"
-            Calendar.SATURDAY -> "Saturday"
-            Calendar.SUNDAY -> "Sunday"
-            else -> "Monday"
-        }
-    }
+//    private fun getDayOfWeek(): String {
+//        val calendar = Calendar.getInstance()
+//        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+//
+//        return when (dayOfWeek) {
+//            Calendar.MONDAY -> "Monday"
+//            Calendar.TUESDAY -> "Tuesday"
+//            Calendar.WEDNESDAY -> "Wednesday"
+//            Calendar.THURSDAY -> "Thursday"
+//            Calendar.FRIDAY -> "Friday"
+//            Calendar.SATURDAY -> "Saturday"
+//            Calendar.SUNDAY -> "Sunday"
+//            else -> "Monday"
+//        }
+//    }
 
 
     private fun readJsonFile(day: String): List<TimetableEntry> {
@@ -81,7 +111,19 @@ class TimetableActivity : AppCompatActivity() {
         }
         return list
     }
+
+
+    fun refresh(){
+        val entries = readJsonFile(dayOfWeek)
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.adapter = TimetableAdapter(entries)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+    }
 }
+
+
+
 //
 //    private fun readJsonFile(): List<TimetableEntry> {
 ////        val inputStream = resources.openRawResource(R.raw.entries)
