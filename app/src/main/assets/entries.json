@@ -4,7 +4,10 @@
   {    "subject": "English",    "startTime": "1:00 PM",    "endTime": "2:00 PM", "day": "Monday" },
   {    "subject": "History",    "startTime": "2:00 PM",    "endTime": "3:00 PM",  "day": "Monday"},
   {    "subject": "History",    "startTime": "2:00 PM",    "endTime": "3:00 PM",  "day": "Tuesday"},
-  {    "subject": "Math0",    "startTime": "9:00 AM",    "endTime": "10:00 AM"  , "day": "Sunday"},
+  {    "subject": "Music",    "startTime": "9:00 AM",    "endTime": "10:00 AM",  "day": "Wednesday"},
+  {    "subject": "Math",    "startTime": "10:00 AM",    "endTime": "11:00 AM",  "day": "Wednesday"},
+  {    "subject": "SST",    "startTime": "12:00 PM",    "endTime": "1:00 PM",  "day": "Wednesday"},
+   {    "subject": "Math0",    "startTime": "9:00 AM",    "endTime": "10:00 AM"  , "day": "Sunday"},
   {    "subject": "Science0",    "startTime": "10:00 AM",    "endTime": "11:00 AM",  "day": "Sunday"},
   {    "subject": "English0",    "startTime": "1:00 PM",    "endTime": "2:00 PM", "day": "Sunday" },
   {    "subject": "History0",    "startTime": "2:00 PM",    "endTime": "3:00 PM",  "day": "Sunday"}
