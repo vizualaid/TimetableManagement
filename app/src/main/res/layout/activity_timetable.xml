@@ -12,17 +12,66 @@
 
 
         <!-- Recycler view -->
-        <TextView
-            android:id="@+id/dayOfWeekTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="12dp"
-            android:padding="10dp"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:background="@drawable/round"
-            android:text="dayOfWeekTextView" />
+       <HorizontalScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:padding="4dp"
+           android:id="@+id/scroll_view">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:orientation="horizontal"
+               android:padding="7dp"
+               android:layout_height="wrap_content">
+               <Button
+                   android:id="@+id/btn1"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:layout_margin="5dp"
+                   android:text="Monday" />
+               <Button
+                   android:id="@+id/btn2"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:text="Tuesday" />
+               <Button
+                   android:id="@+id/btn3"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:text="Wednesday" />
+               <Button
+                   android:id="@+id/btn4"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:text="Thursday" />
+               <Button
+                   android:id="@+id/btn5"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:text="Friday" />
+
+           </LinearLayout>
+
+       </HorizontalScrollView>
 
 
         <androidx.recyclerview.widget.RecyclerView
