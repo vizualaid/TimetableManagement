@@ -68,6 +68,24 @@
                    android:textColor="@color/white"
                    android:background="@drawable/round"
                    android:text="Friday" />
+               <Button
+                   android:id="@+id/btn6"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:text="Saturday" />
+               <Button
+                   android:id="@+id/btn7"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:textSize="15dp"
+                   android:textColor="@color/white"
+                   android:background="@drawable/round"
+                   android:text="Sunday" />
 
            </LinearLayout>
 

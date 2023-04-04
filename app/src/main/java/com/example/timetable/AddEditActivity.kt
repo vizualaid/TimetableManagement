@@ -2,6 +2,7 @@ package com.example.timetable
 
 import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -120,8 +121,6 @@ class AddEditActivity : AppCompatActivity() {
             saveEntry()
         }
     }
-
-
     private fun saveEntry() {
         // Get the entered data from the UI elements
         val subject = subjectEditText.text.toString().trim()
@@ -135,23 +134,52 @@ class AddEditActivity : AppCompatActivity() {
             return
         }
 
-        // Create a JSON object with the entry data
-        val jsonObject = JSONObject()
-        jsonObject.put("subject", subject)
-        jsonObject.put("startTime", startTime)
-        jsonObject.put("endTime", endTime)
-        jsonObject.put("day", week)
+        // Get the SharedPreferences object
+        val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
 
-        // Write the JSON object to a file
-        val fileName = "entries.json"
-        val file = File(filesDir, fileName)
-        val fileWriter = FileWriter(file, true).also {
-            it.write(jsonObject.toString() + "\n")
-            it.close()
-        }
+        // Add the entry data as a key-value pair in the SharedPreferences object
+        val entryJsonString = "{\"subject\":\"$subject\",\"startTime\":\"$startTime\",\"endTime\":\"$endTime\"}"
+//
+        val entryKey = "$week-${System.currentTimeMillis()}"
+        sharedPreferences.edit().putString(entryKey, entryJsonString).apply()
 
         // Close the activity and return to the previous screen
         setResult(Activity.RESULT_OK)
         finish()
     }
+
+
+//
+//    private fun saveEntry() {
+//        // Get the entered data from the UI elements
+//        val subject = subjectEditText.text.toString().trim()
+//        val startTime = startTimeEditText.text.toString().trim()
+//        val endTime = endTimeEditText.text.toString().trim()
+//        val week = weekSpinner.selectedItem.toString()
+//
+//        // Validate the data
+//        if (subject.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
+//            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        // Create a JSON object with the entry data
+//        val jsonObject = JSONObject()
+//        jsonObject.put("subject", subject)
+//        jsonObject.put("startTime", startTime)
+//        jsonObject.put("endTime", endTime)
+//        jsonObject.put("day", week)
+//
+//        // Write the JSON object to a file
+//        val fileName = "entries.json"
+//        val file = File(filesDir, fileName)
+//        val fileWriter = FileWriter(file, true).also {
+//            it.write(jsonObject.toString() + "\n")
+//            it.close()
+//        }
+//
+//        // Close the activity and return to the previous screen
+//        setResult(Activity.RESULT_OK)
+//        finish()
+//    }
 }

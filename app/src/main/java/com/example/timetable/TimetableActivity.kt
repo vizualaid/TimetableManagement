@@ -1,9 +1,9 @@
 
 
 //package com.example.timetable
-//
 package com.example.timetable
 
+import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -15,13 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
+import org.json.JSONObject
 import java.time.DayOfWeek
 
 class TimetableActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+//     Get the current day of the week
+        var currentday = getCurrentDay()
 
-    var dayOfWeek : String = "Tuesday"
+
+    var dayOfWeek : String = currentday
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timetable)
@@ -32,6 +36,8 @@ class TimetableActivity : AppCompatActivity() {
         val btn3=findViewById<Button>(R.id.btn3)
         val btn4=findViewById<Button>(R.id.btn4)
         val btn5=findViewById<Button>(R.id.btn5)
+        val btn6=findViewById<Button>(R.id.btn6)
+        val btn7=findViewById<Button>(R.id.btn7)
 
         btn1.setOnClickListener{
             dayOfWeek=btn1.text.toString()
@@ -51,6 +57,14 @@ class TimetableActivity : AppCompatActivity() {
         }
         btn5.setOnClickListener{
             dayOfWeek=btn5.text.toString()
+            refresh()
+        }
+        btn6.setOnClickListener{
+            dayOfWeek=btn6.text.toString()
+            refresh()
+        }
+        btn7.setOnClickListener{
+            dayOfWeek=btn7.text.toString()
             refresh()
         }
 
@@ -78,39 +92,62 @@ class TimetableActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-//    private fun getDayOfWeek(): String {
-//        val calendar = Calendar.getInstance()
-//        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-//
-//        return when (dayOfWeek) {
-//            Calendar.MONDAY -> "Monday"
-//            Calendar.TUESDAY -> "Tuesday"
-//            Calendar.WEDNESDAY -> "Wednesday"
-//            Calendar.THURSDAY -> "Thursday"
-//            Calendar.FRIDAY -> "Friday"
-//            Calendar.SATURDAY -> "Saturday"
-//            Calendar.SUNDAY -> "Sunday"
-//            else -> "Monday"
-//        }
-//    }
+    private fun getCurrentDay(): String {
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
 
-
+        return when (dayOfWeek) {
+            Calendar.MONDAY -> "Monday"
+            Calendar.TUESDAY -> "Tuesday"
+            Calendar.WEDNESDAY -> "Wednesday"
+            Calendar.THURSDAY -> "Thursday"
+            Calendar.FRIDAY -> "Friday"
+            Calendar.SATURDAY -> "Saturday"
+            Calendar.SUNDAY -> "Sunday"
+            else -> "Monday"
+        }
+    }
     private fun readJsonFile(day: String): List<TimetableEntry> {
-        val json = application.assets.open("entries.json").bufferedReader().use { it.readText() }
-        val jsonArray = JSONArray(json)
+        // Get the SharedPreferences object
+        val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
+
+        // Iterate over all the entries in the SharedPreferences object
         val list = mutableListOf<TimetableEntry>()
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-            if (jsonObject.getString("day") == day) {
-                val subject = jsonObject.getString("subject")
-                val startTime = jsonObject.getString("startTime")
-                val endTime = jsonObject.getString("endTime")
-                val item = TimetableEntry(subject, startTime, endTime)
-                list.add(item)
+        for (entryKey in sharedPreferences.all.keys) {
+            if (entryKey.startsWith("$day-")) {
+                // If the entry key starts with the specified weekday, retrieve the entry data and add it to the list
+                val entryJsonString = sharedPreferences.getString(entryKey, null)
+                if (entryJsonString != null) {
+                    val entryJsonObject = JSONObject(entryJsonString)
+                    val subject = entryJsonObject.getString("subject")
+                    val startTime = entryJsonObject.getString("startTime")
+                    val endTime = entryJsonObject.getString("endTime")
+                    val item = TimetableEntry(subject, startTime, endTime)
+                    list.add(item)
+                }
             }
         }
         return list
     }
+
+
+//
+//    private fun readJsonFile(day: String): List<TimetableEntry> {
+//        val json = application.assets.open("entries.json").bufferedReader().use { it.readText() }
+//        val jsonArray = JSONArray(json)
+//        val list = mutableListOf<TimetableEntry>()
+//        for (i in 0 until jsonArray.length()) {
+//            val jsonObject = jsonArray.getJSONObject(i)
+//            if (jsonObject.getString("day") == day) {
+//                val subject = jsonObject.getString("subject")
+//                val startTime = jsonObject.getString("startTime")
+//                val endTime = jsonObject.getString("endTime")
+//                val item = TimetableEntry(subject, startTime, endTime)
+//                list.add(item)
+//            }
+//        }
+//        return list
+//    }
 
 
     fun refresh(){
