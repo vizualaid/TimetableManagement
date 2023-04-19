@@ -17,14 +17,14 @@ class FreeRoomAdapter(private val freeRoomData: List<FreeRoomEntry>) :
     override fun onBindViewHolder(holder: TimetableViewHolder, position: Int) {
         val currentItem = freeRoomData[position]
         holder.roomNoView.text = currentItem.roomNo
-        val timehere = "${currentItem.startTime} - ${currentItem.endTime}"
-        holder.timeView.text = timehere
+//        val timehere = "${currentItem.startTime} - ${currentItem.endTime}"
+//        holder.timeView.text = timehere
     }
 
     override fun getItemCount() = freeRoomData.size
 
     class TimetableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val roomNoView: TextView = itemView.findViewById(R.id.roomNoTextView)
-        val timeView: TextView = itemView.findViewById(R.id.timeTextView)
+//        val timeView: TextView = itemView.findViewById(R.id.timeTextView)
     }
 }

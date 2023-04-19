@@ -123,7 +123,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
-            android:layout_width="wrap_content"
+            android:layout_width="167dp"
             android:layout_height="2dp"
             android:layout_marginTop="1dp"
             android:layout_weight="0.5"
