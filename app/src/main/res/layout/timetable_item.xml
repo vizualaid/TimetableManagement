@@ -18,6 +18,15 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="20dp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/RoomNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginTop="8dp"
+            android:text="Room No. "
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/time"

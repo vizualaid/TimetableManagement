@@ -1,22 +1,18 @@
-
-
-//package com.example.timetable
 package com.example.timetable
-
+import java.time.LocalTime
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.text.format.DateUtils.getDayOfWeekString
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.json.JSONArray
+import com.google.gson.Gson
 import org.json.JSONObject
-import java.time.DayOfWeek
+import java.util.*
 
 class TimetableActivity : AppCompatActivity() {
 
@@ -26,6 +22,9 @@ class TimetableActivity : AppCompatActivity() {
 
 
     var dayOfWeek : String = currentday
+
+
+    val currentTime = LocalTime.now()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timetable)
@@ -83,6 +82,19 @@ class TimetableActivity : AppCompatActivity() {
         recyclerView.adapter = TimetableAdapter(entries)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
+//        val dayOfWeek = "Wednesday"
+//        val currentTime = "10:00 AM - 11:00 AM"
+
+//        println("List of free rooms at $currentTime on $dayOfWeek: $listfreerooms")
+        // Set up the RecyclerView
+        recyclerView = findViewById(R.id.recyclerView2)
+
+        val listFreeRooms = getFreeRooms(dayOfWeek, currentTime).map { FreeRoomEntry(it, "") }
+        recyclerView.adapter = FreeRoomAdapter(listFreeRooms)
+
+        recyclerView.adapter = FreeRoomAdapter(listFreeRooms)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
 
         // Set up a button to add a new entry
         val addButton: FloatingActionButton = findViewById(R.id.addButton)
@@ -91,6 +103,7 @@ class TimetableActivity : AppCompatActivity() {
             val intent = Intent(this, AddEditActivity::class.java)
             startActivity(intent)
         }
+
     }
     private fun getCurrentDay(): String {
         val calendar = Calendar.getInstance()
@@ -108,27 +121,118 @@ class TimetableActivity : AppCompatActivity() {
         }
     }
     private fun readJsonFile(day: String): List<TimetableEntry> {
-        // Get the SharedPreferences object
+// Get the SharedPreferences object
         val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
 
-        // Iterate over all the entries in the SharedPreferences object
+// Iterate over all the entries in the SharedPreferences object
         val list = mutableListOf<TimetableEntry>()
         for (entryKey in sharedPreferences.all.keys) {
             if (entryKey.startsWith("$day-")) {
-                // If the entry key starts with the specified weekday, retrieve the entry data and add it to the list
-                val entryJsonString = sharedPreferences.getString(entryKey, null)
-                if (entryJsonString != null) {
-                    val entryJsonObject = JSONObject(entryJsonString)
-                    val subject = entryJsonObject.getString("subject")
-                    val startTime = entryJsonObject.getString("startTime")
-                    val endTime = entryJsonObject.getString("endTime")
-                    val item = TimetableEntry(subject, startTime, endTime)
-                    list.add(item)
+                val entryJson = sharedPreferences.getString(entryKey, null)
+                if (entryJson != null) {
+// Deserialize the JSON string into a TimetableEntry object
+                    val entry = Gson().fromJson(entryJson, TimetableEntry::class.java)
+
+
+                    if (entry != null) {
+
+                        list.add(entry)
+                    }
                 }
             }
         }
+
+// Sort the list by start time
+
+        list.sortBy { it.startTime }
+
         return list
     }
+//    private fun readJsonFile(day: String): List<TimetableEntry> {
+//        // Get the SharedPreferences object
+//        val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
+//
+//        // Iterate over all the entries in the SharedPreferences object
+//        val list = mutableListOf<TimetableEntry>()
+//        for (entryKey in sharedPreferences.all.keys) {
+//            if (entryKey.startsWith("$day-")) {
+//                // If the entry key starts with the specified weekday, retrieve the entry data and add it to the list
+//                val entryJsonString = sharedPreferences.getString(entryKey, null)
+//                if (entryJsonString != null) {
+//                    val entryJsonObject = JSONObject(entryJsonString)
+//                    val subject = entryJsonObject.getString("subject")
+//                    val roomNo= entryJsonObject.getString("roomNo")
+//                    val startTime = entryJsonObject.getString("startTime")
+//                    val endTime = entryJsonObject.getString("endTime")
+//                    val item = TimetableEntry(subject, roomNo, startTime, endTime)
+//                    list.add(item)
+//                }
+//            }
+//        }
+//        return list
+//    }
+
+
+
+private fun getFreeRooms(day: String, time: LocalTime): List<String> {
+    // Get the SharedPreferences object
+    val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
+
+    // Iterate over all the entries in the SharedPreferences object for the specified weekday
+    val usedRooms = mutableListOf<String>()
+//    val timeFormat2 = SimpleDateFormat("hh", Locale.getDefault())
+//    val date2 = Date()
+//    val hour2 = timeFormat2.format(date2)
+//
+//    val startTimeStr = hour2.toString()
+//    val endTimeStr = (hour2.toInt() + 1).toString()
+
+    for (entryKey in sharedPreferences.all.keys) {
+        if (entryKey.startsWith("$day-")) {
+            // If the entry key starts with the specified weekday, retrieve the entry data and add the room to the usedRooms list
+            val entryJsonString = sharedPreferences.getString(entryKey, null)
+            if (entryJsonString != null) {
+                val entryJsonObject = JSONObject(entryJsonString)
+                val roomNo = entryJsonObject.getString("roomNo")
+                usedRooms.add(roomNo)
+            }
+        }
+    }
+
+    // Filter out the rooms that are already in use during the specified time
+    val timeFormat = SimpleDateFormat("hh", Locale.getDefault())
+    val date = Date() // or any other date object
+    val hour = timeFormat.format(date)
+    val startTime = timeFormat.parse(hour.toString())
+    val endTime = timeFormat.parse("$hour+1")
+    val freeRooms = mutableListOf<String>()
+    for (roomNo in listOf("711", "712", "713", "714", "715", "716", "717", "718", "719", "720")) {
+        if (!usedRooms.contains("38-$roomNo")) {
+            freeRooms.add("38-$roomNo")
+        }
+
+//        else {
+//            // Check if the room is free during the specified time
+//            val roomEntries = readJsonFile(day).filter { it.roomNo == "38-$roomNo" }
+//            var isFree = true
+//            for (entry in roomEntries) {
+//                val entryStartTime = timeFormat.parse(entry.startTime)
+//                val entryEndTime = timeFormat.parse(entry.endTime)
+//                if (startTime in entryStartTime..entryEndTime || endTime in entryStartTime..entryEndTime) {
+//                    isFree = false
+//                    break
+//                }
+//            }
+//            if (isFree) {
+//                freeRooms.add("38-$roomNo")
+//            }
+//        }
+
+    }
+
+    return freeRooms
+}
+
 
 
 //

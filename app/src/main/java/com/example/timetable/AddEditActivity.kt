@@ -18,6 +18,7 @@ import java.util.*
 
 class AddEditActivity : AppCompatActivity() {
     private lateinit var subjectEditText: EditText
+    private lateinit var roomNoEditText: EditText
     private lateinit var startTimeEditText: EditText
     private lateinit var endTimeEditText: EditText
     private lateinit var weekSpinner: Spinner
@@ -103,6 +104,7 @@ class AddEditActivity : AppCompatActivity() {
 
         // Set up the UI elements
         subjectEditText = findViewById(R.id.subjectEditText)
+        roomNoEditText= findViewById(R.id.RoomNoEditText)
         startTimeEditText = findViewById(R.id.startTimeEditText)
         endTimeEditText = findViewById(R.id.endTimeEditText)
         // Initialize the weekSpinner variable with the spinner view from your layout file
@@ -124,12 +126,13 @@ class AddEditActivity : AppCompatActivity() {
     private fun saveEntry() {
         // Get the entered data from the UI elements
         val subject = subjectEditText.text.toString().trim()
+        val roomNo= roomNoEditText.text.toString().trim()
         val startTime = startTimeEditText.text.toString().trim()
         val endTime = endTimeEditText.text.toString().trim()
         val week = weekSpinner.selectedItem.toString()
 
         // Validate the data
-        if (subject.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
+        if (subject.isEmpty()||roomNo.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
             Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
             return
         }
@@ -138,10 +141,11 @@ class AddEditActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
 
         // Add the entry data as a key-value pair in the SharedPreferences object
-        val entryJsonString = "{\"subject\":\"$subject\",\"startTime\":\"$startTime\",\"endTime\":\"$endTime\"}"
+        val entryJsonString = "{\"subject\":\"$subject\",\"roomNo\":\"$roomNo\",\"startTime\":\"$startTime\",\"endTime\":\"$endTime\"}"
 //
         val entryKey = "$week-${System.currentTimeMillis()}"
         sharedPreferences.edit().putString(entryKey, entryJsonString).apply()
+//        sharedPreferences.edit().putString(entryKey, entryJsonString).apply()
 
         // Close the activity and return to the previous screen
         setResult(Activity.RESULT_OK)

@@ -9,23 +9,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp">
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/subject_title"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/subjectEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subject"
+            android:hint="@string/subject_hint"
+            android:inputType="textCapWords"
+            android:maxLength="50"
+            android:maxLines="1" />
 
     <TextView
-        android:id="@+id/subject"
+        android:id="@+id/RoomNo"
+        android:layout_below="@+id/subjectEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/subject_title"
+        android:text="@string/RoomNo"
         android:textColor="@android:color/darker_gray"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/subjectEditText"
+        android:id="@+id/RoomNoEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject"
-        android:hint="@string/subject_hint"
+        android:layout_below="@id/RoomNo"
+        android:hint="@string/RoomNo_hint"
         android:inputType="textCapWords"
         android:maxLength="50"
         android:maxLines="1" />
@@ -34,7 +54,7 @@
         android:id="@+id/Day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subjectEditText"
+        android:layout_below="@id/RoomNoEditText"
         android:layout_marginTop="16dp"
         android:text="Day of the Week"
         android:textColor="@android:color/darker_gray"

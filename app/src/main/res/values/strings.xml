@@ -2,12 +2,15 @@
     <string name="app_name">timetable</string>
     <string name="timetable_title">TimeTable Title</string>
     <string name="add_edit_title">Add Edit Title</string>
-    <string name="subject_hint">Subject Hint</string>
+    <string name="subject_hint">CSE 252</string>
     <string name="start_time_label">Start Time</string>
     <string name="start_time_hint">Start Time Hint</string>
     <string name="end_time_label">End Time</string>
     <string name="end_time_hint">End Time Hint</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
-    <string name="subject_title">Subject Title</string>
+    <string name="subject_title">Course Title</string>
+    <string name="RoomNo_hint">35 / Room No. 409</string>
+    <string name="RoomNo">Set Room No.</string>
+    <string name="dayhint">Monday</string>
 </resources>

@@ -102,6 +102,30 @@
             tools:listitem="@layout/timetable_item"
             />
 
+        <TextView
+            android:id="@+id/textView"
+            android:padding="10dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="30dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Free Room Available"
+            android:background="@drawable/edt_background"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView2"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            tools:listitem="@layout/freeroom_item"
+            />
+
+
         <!-- Add button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addButton"

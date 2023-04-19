@@ -55,6 +55,7 @@ class TimetableAdapter(private val timetableData: List<TimetableEntry>):
     override fun onBindViewHolder(holder: TimetableViewHolder, position: Int) {
         val currentItem = timetableData[position]
         holder.subjectView.text = (currentItem.subject)
+            holder.roomNoView.text = (currentItem.roomNo)
         val timehere="${currentItem.startTime} - ${currentItem.endTime}"
         holder.timeView.text = timehere
 
@@ -68,6 +69,7 @@ class TimetableAdapter(private val timetableData: List<TimetableEntry>):
 
     class TimetableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subjectView: TextView = itemView.findViewById(R.id.subject)
+        val roomNoView: TextView = itemView.findViewById(R.id.RoomNo)
         val timeView: TextView = itemView.findViewById(R.id.time)
 
     }
