@@ -1,12 +1,21 @@
 package com.example.timetable
+import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import java.time.LocalTime
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,7 +27,10 @@ import java.util.*
 class TimetableActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+
+
 //     Get the current day of the week
+
         var currentday = getCurrentDay()
 
 
@@ -29,6 +41,8 @@ class TimetableActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timetable)
+
+
 
         // Set up the day of the week at the top
         val btn1=findViewById<Button>(R.id.btn1)
@@ -121,6 +135,8 @@ class TimetableActivity : AppCompatActivity() {
             else -> "Monday"
         }
     }
+
+
     private fun readJsonFile(day: String): List<TimetableEntry> {
 // Get the SharedPreferences object
         val sharedPreferences = getSharedPreferences("timetable_entries", Context.MODE_PRIVATE)
@@ -138,6 +154,7 @@ class TimetableActivity : AppCompatActivity() {
                     if (entry != null) {
 
                         list.add(entry)
+
                     }
                 }
             }

@@ -1,13 +1,18 @@
 package com.example.timetable
 
-import android.app.Activity
-import android.app.TimePickerDialog
+import android.annotation.SuppressLint
+import android.app.*
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 //import androidx.appcompat.widget.Toolbar
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -23,6 +28,9 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var endTimeEditText: EditText
     private lateinit var weekSpinner: Spinner
 
+    private val CHANNEL_ID="Channel_id"
+    private val notificationId=101
+
     private lateinit var STimeText: EditText
     private lateinit var ETimeText: EditText
     private lateinit var btnSTimePicker: Button
@@ -35,8 +43,11 @@ class AddEditActivity : AppCompatActivity() {
     private var mHour: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit)
+
+        createNotificationChannel()
 
         // Initialize UI components
         btnSTimePicker = findViewById(R.id.setstart)
@@ -123,6 +134,46 @@ class AddEditActivity : AppCompatActivity() {
             saveEntry()
         }
     }
+
+    private fun createNotificationChannel(){
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+            val name="Notification Title"
+            val descriptionText="Notification Description"
+            val imp= NotificationManager.IMPORTANCE_DEFAULT
+            val channel= NotificationChannel(CHANNEL_ID,name,imp).apply{
+                description=descriptionText
+            }
+            val notificationManager: NotificationManager =getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun sendNotification(){
+
+        val intent: Intent = Intent(this,TimetableActivity::class.java).apply {
+            flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this,0,intent,0)
+
+        val bitmapLargeIcon= BitmapFactory.decodeResource(applicationContext.resources,R.drawable.icon)
+
+
+
+        val builder: NotificationCompat.Builder= NotificationCompat.Builder(this,CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("TimeTable Added")
+            .setContentText("Schedule for the subject has been added!!")
+            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmapLargeIcon))
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationId,builder.build())
+        }
+
+    }
+
     private fun saveEntry() {
         // Get the entered data from the UI elements
         val subject = subjectEditText.text.toString().trim()
@@ -149,6 +200,7 @@ class AddEditActivity : AppCompatActivity() {
 
         // Close the activity and return to the previous screen
         setResult(Activity.RESULT_OK)
+        sendNotification()
         finish()
     }
 
