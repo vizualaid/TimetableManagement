@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="2dp">
 
         <TextView
             android:id="@+id/roomNoTextView"
@@ -22,8 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/roomNoTextView"
-            android:layout_marginTop="8dp"
-            android:textSize="18sp"
+            android:layout_marginTop="2dp"
+            android:textSize="15sp"
             android:text="Time"
             android:textColor="@android:color/darker_gray"/>
 
