@@ -1,4 +1,5 @@
 package com.example.timetable
+
 import java.time.LocalTime
 import android.content.Context
 import android.content.Intent
@@ -18,22 +19,21 @@ import org.json.JSONObject
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class TimetableActivity : AppCompatActivity() {
+class TimetableActivity2 : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-//     Get the current day of the week
-        var currentday = getCurrentDay()
+    //     Get the current day of the week
+    var currentday = getCurrentDay()
 
 
     var dayOfWeek : String = currentday
-
-
 
 
     val currentTime = LocalTime.now()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timetable)
+
         var today: String = currentday
         // Set up the day of the week at the top
         val btn1 = findViewById<Button>(R.id.btn1)
@@ -69,7 +69,7 @@ class TimetableActivity : AppCompatActivity() {
                 btn3.setBackgroundResource(R.drawable.button_outline)
             }
             "Thursday" -> {
-                btn4.background = ContextCompat.getDrawable(this, R.drawable.round2)
+                btn4.setBackgroundColor(Color.GRAY)
                 btn4.setTextColor(Color.BLACK)
                 btn4.alpha = 1f
                 btn4.setBackgroundResource(R.drawable.button_outline)
@@ -93,7 +93,6 @@ class TimetableActivity : AppCompatActivity() {
                 btn7.setBackgroundResource(R.drawable.button_outline)
             }
         }
-
 
 
         btn1.setOnClickListener{
@@ -126,9 +125,19 @@ class TimetableActivity : AppCompatActivity() {
         }
 
 
-        val entries = readJsonFile(dayOfWeek)
+
+//        val entries = readJsonFile(dayOfWeek)
+//        recyclerView = findViewById(R.id.recyclerView)
+//        recyclerView.adapter = TimetableAdapter(entries)
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.setHasFixedSize(true)
+
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.adapter = TimetableAdapter(entries)
+
+        val listFreeRooms = getFreeRooms(dayOfWeek, currentTime).map { FreeRoomEntry(it, "") }
+        recyclerView.adapter = FreeRoomAdapter(listFreeRooms)
+
+        recyclerView.adapter = FreeRoomAdapter(listFreeRooms)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
@@ -138,13 +147,6 @@ class TimetableActivity : AppCompatActivity() {
             // Create an intent to launch the Add/Edit screen
             val intent = Intent(this, AddEditActivity::class.java)
             startActivity(intent)
-        }
-
-        val freeButton: FloatingActionButton = findViewById(R.id.freeButton)
-        freeButton.setOnClickListener {
-            // Create an intent to launch the free room screen
-            val intent2 = Intent(this, TimetableActivity2::class.java)
-            startActivity(intent2)
         }
 
     }
@@ -241,20 +243,20 @@ class TimetableActivity : AppCompatActivity() {
                         usedRooms.add(roomNo)
                     }
                 }
+            }
         }
-    }
 
-    // Filter out the rooms that are already in use during the specified time
-    val timeFormat = SimpleDateFormat("hh", Locale.getDefault())
-    val date = Date() // or any other date object
-    val hour = timeFormat.format(date)
-    val startTime = timeFormat.parse(hour.toString())
-    val endTime = timeFormat.parse("$hour+1")
-    val freeRooms = mutableListOf<String>()
-    for (roomNo in listOf("710","711", "712", "713", "714", "715", "716", "717", "718", "719", "720")) {
-        if (!usedRooms.contains("38-$roomNo")) {
-            freeRooms.add("38-$roomNo")
-        }
+        // Filter out the rooms that are already in use during the specified time
+        val timeFormat = SimpleDateFormat("hh", Locale.getDefault())
+        val date = Date() // or any other date object
+        val hour = timeFormat.format(date)
+        val startTime = timeFormat.parse(hour.toString())
+        val endTime = timeFormat.parse("$hour+1")
+        val freeRooms = mutableListOf<String>()
+        for (roomNo in listOf("710","711", "712", "713", "714", "715", "716", "717", "718", "719", "720")) {
+            if (!usedRooms.contains("38-$roomNo")) {
+                freeRooms.add("38-$roomNo")
+            }
 
 //        else {
 //            // Check if the room is free during the specified time
@@ -273,10 +275,10 @@ class TimetableActivity : AppCompatActivity() {
 //            }
 //        }
 
-    }
+        }
 
-    return freeRooms
-}
+        return freeRooms
+    }
 
 
 

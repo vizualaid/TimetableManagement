@@ -42,7 +42,13 @@ class Login : AppCompatActivity() {
             if(username == "admin" && password == "admin") {
                 val intent = Intent(this, TimetableActivity::class.java)
                 startActivity(intent)
-            } else {
+            }
+            else if(username == "student" && password == "student")
+            {
+                val intent = Intent(this, TimetableActivity::class.java)
+                startActivity(intent)
+            }
+            else {
                 showCustomToast("Unable to login")
             }
 
